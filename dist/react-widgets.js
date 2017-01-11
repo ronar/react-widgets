@@ -6054,7 +6054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var dates = _extends(_dateArithmetic2.default, {
+	var dates = _extends({}, _dateArithmetic2.default, {
 	  parse: function parse(date, format, culture) {
 	    return _localizers.date.parse(date, format, culture);
 	  },
@@ -7411,7 +7411,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'aria-describedby': ariaDescribedby,
 	      'aria-expanded': !!open,
 	      'aria-busy': !!busy,
-	      'aria-owns': owns
+	      'aria-owns': owns,
+	      onClick: this._click.bind(null, _constants.datePopups.CALENDAR)
 	    });
 	  },
 	  renderButtons: function renderButtons(messages) {
@@ -7506,7 +7507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      {
 	        dropUp: dropUp,
 	        duration: duration,
-	        open: open === _constants.datePopups.TIME,
+	        open: open === _constants.datePopups.CALENDAR,
 	        onOpening: function onOpening() {
 	          return _this2.refs.timePopup.forceUpdate();
 	        }

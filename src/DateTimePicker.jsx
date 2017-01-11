@@ -182,6 +182,7 @@ var DateTimePicker = React.createClass({
         aria-expanded={!!open}
         aria-busy={!!busy}
         aria-owns={owns}
+        onClick={this._click.bind(null, popups.CALENDAR)}
       />
     )
   },
@@ -271,7 +272,7 @@ var DateTimePicker = React.createClass({
       <Popup
         dropUp={dropUp}
         duration={duration}
-        open={open === popups.TIME}
+        open={open === popups.CALENDAR}
         onOpening={() => this.refs.timePopup.forceUpdate()}
       >
         <div>
