@@ -77,17 +77,20 @@ export default React.createClass({
       , date  = this._closestDate(times, value);
 
     return (
-      <List
-        {..._.omitOwnProps(this)}
-        ref="list"
-        data={times}
-        textField='label'
-        valueField='date'
-        selected={date}
-        onSelect={onSelect}
-        focused={this.state.focusedItem}
-        itemComponent={itemComponent}
-      />
+      <div className='rw-timelist'>
+        <div className='rw-timelist-header'>2. What time?</div>
+        <List
+          {..._.omitOwnProps(this)}
+          ref="list"
+          data={times}
+          textField='label'
+          valueField='date'
+          selected={date}
+          onSelect={onSelect}
+          focused={this.state.focusedItem}
+          itemComponent={itemComponent}
+        />
+      </div>
     )
   },
 
