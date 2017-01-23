@@ -89,16 +89,19 @@ class CalendarViewCell extends React.Component {
         aria-label={label}
         aria-readonly={disabled}
         aria-selected={this.isSelected()}
+        className={cn(
+            'rw-grid-cell',
+            this.isOffView() && 'rw-off-range',
+            this.isFocused() && 'rw-state-focus',
+            this.isSelected() && 'rw-state-selected'
+          )}
       >
         <span
           aria-labelledby={id}
           onClick={this.handleChange}
           className={cn(
             'rw-btn',
-            this.isNow() && 'rw-now',
-            this.isOffView() && 'rw-off-range',
-            this.isFocused() && 'rw-state-focus',
-            this.isSelected() && 'rw-state-selected'
+            this.isNow() && 'rw-now'
           )}
         >
           {children}

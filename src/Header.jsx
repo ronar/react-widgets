@@ -44,6 +44,7 @@ export default React.createClass({
 
     return (
       <div className='rw-header'>
+        <div className='rw-header-text'>1. Which day?</div>
         <Button
           className="rw-btn-left"
           onClick={onMoveLeft}

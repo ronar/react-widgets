@@ -198,6 +198,7 @@ var ComboBox = React.createClass({
         value={dataText(valueItem, textField)}
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
+        onClick={this.toggle}
       />
     )
   },

@@ -188,7 +188,7 @@ var DateTimePicker = React.createClass({
   },
 
   renderButtons(messages) {
-    let { calendar, time, disabled, readOnly } = this.props;
+    let { calendar, time, disabled, busy, readOnly } = this.props;
 
     if (!calendar && !time) {
       return null;
@@ -196,48 +196,43 @@ var DateTimePicker = React.createClass({
 
     return (
       <span className='rw-select'>
-        {calendar &&
-          <Button
-            icon="calendar"
-            className='rw-btn-calendar'
-            label={messages.calendarButton}
-            disabled={!!(disabled || readOnly)}
-            onClick={this._click.bind(null, popups.CALENDAR)}
-          />
-        }
-        {time &&
-          <Button
-            icon="clock-o"
-            className='rw-btn-time'
-            label={messages.timeButton}
-            disabled={!!(disabled || readOnly)}
-            onClick={this._click.bind(null, popups.TIME)}
-          />
-        }
+        <Select
+          busy={busy}
+          icon="caret-down"
+          component='span'
+          className="rw-dropdownlist-picker"
+          onClick={this._click.bind(null, popups.CALENDAR)}
+        />
       </span>
     )
   },
 
-  renderCalendar(id, inputID) {
+  renderCalendarWithTime(calId, timeId, inputID) {
     let {
         open
       , value
-      , duration
-      , dropUp } = this.props;
+      // , duration
+      // , dropUp
+      , calendar
+      , time
+      , timeFormat
+      , timeComponent } = this.props;
 
     let calendarProps = _.pickProps(this.props, Calendar);
+    let timeListProps = _.pickProps(this.props, TimeList);
 
     return (
-      <Popup
-        dropUp={dropUp}
-        duration={duration}
-        open={open === popups.CALENDAR}
-        className='rw-calendar-popup'
-      >
-        <Calendar
+      // <Popup
+      //   dropUp={dropUp}
+      //   duration={duration}
+      //   open={open === popups.CALENDAR}
+      //   className='rw-calendar-popup'
+      // >
+      <div>
+        {calendar && <Calendar
           {...calendarProps}
           ref="calPopup"
-          id={id}
+          id={calId}
           tabIndex='-1'
           value={value}
           autoFocus={false}
@@ -251,8 +246,23 @@ var DateTimePicker = React.createClass({
           aria-live='polite'
           aria-labelledby={inputID}
           ariaActiveDescendantKey='calendar'
-        />
-      </Popup>
+        />}
+        {time && <TimeList
+          {...timeListProps}
+          ref="timePopup"
+          id={timeId}
+          format={timeFormat}
+          value={dateOrNull(value)}
+          onMove={this._scrollTo}
+          onSelect={this.handleTimeSelect}
+          preserveDate={!!calendar}
+          itemComponent={timeComponent}
+          aria-labelledby={inputID}
+          aria-live={open && 'polite'}
+          aria-hidden={!open}
+          ariaActiveDescendantKey='timelist'
+        />}
+      </div>
     )
   },
 
@@ -260,8 +270,8 @@ var DateTimePicker = React.createClass({
     let {
         open
       , value
-      , duration
-      , dropUp
+      // , duration
+      // , dropUp
       , calendar
       , timeFormat
       , timeComponent } = this.props;
@@ -269,30 +279,21 @@ var DateTimePicker = React.createClass({
     let timeListProps = _.pickProps(this.props, TimeList);
 
     return (
-      <Popup
-        dropUp={dropUp}
-        duration={duration}
-        open={open === popups.CALENDAR}
-        onOpening={() => this.refs.timePopup.forceUpdate()}
-      >
-        <div>
-          <TimeList
-            {...timeListProps}
-            ref="timePopup"
-            id={id}
-            format={timeFormat}
-            value={dateOrNull(value)}
-            onMove={this._scrollTo}
-            onSelect={this.handleTimeSelect}
-            preserveDate={!!calendar}
-            itemComponent={timeComponent}
-            aria-labelledby={inputID}
-            aria-live={open && 'polite'}
-            aria-hidden={!open}
-            ariaActiveDescendantKey='timelist'
-          />
-        </div>
-      </Popup>
+      <TimeList
+        {...timeListProps}
+        ref="timePopup"
+        id={id}
+        format={timeFormat}
+        value={dateOrNull(value)}
+        onMove={this._scrollTo}
+        onSelect={this.handleTimeSelect}
+        preserveDate={!!calendar}
+        itemComponent={timeComponent}
+        aria-labelledby={inputID}
+        aria-live={open && 'polite'}
+        aria-hidden={!open}
+        ariaActiveDescendantKey='timelist'
+      />
     )
   },
 
@@ -300,6 +301,7 @@ var DateTimePicker = React.createClass({
     let {
         className
       , calendar
+      , duration
       , time
       , open
       , messages
@@ -341,15 +343,16 @@ var DateTimePicker = React.createClass({
         )}
       >
         {this.renderInput(inputID, owns.trim())}
-
-        {this.renderButtons(messages)}
-
-        {shouldRenderList &&
-          this.renderTimeList(timeListID, inputID)
-        }
-        {shouldRenderList &&
-          this.renderCalendar(dateListID, inputID)
-        }
+        <Popup
+          dropUp={dropUp}
+          duration={duration}
+          open={open === popups.CALENDAR}
+          className='rw-calendar-popup'
+        >
+          {shouldRenderList &&
+            this.renderCalendarWithTime(dateListID, timeListID, inputID)
+          }
+        </Popup>
       </Widget>
     )
   },
@@ -431,7 +434,7 @@ var DateTimePicker = React.createClass({
       , dateTime = dates.merge(date, this.props.value, this.props.currentDate)
       , dateStr  = formatDate(date, format, this.props.culture);
 
-    this.close()
+    // this.close()
     notify(this.props.onSelect, [dateTime, dateStr])
     this.handleChange(dateTime, dateStr, true)
     this.focus()
@@ -490,7 +493,7 @@ var DateTimePicker = React.createClass({
   },
 
   open(view){
-    if (this.props.open !== view && this.props[view] === true)
+    if (this.props.open !== view)
       notify(this.props.onToggle, view)
   },
 
