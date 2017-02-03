@@ -434,7 +434,8 @@ var DateTimePicker = React.createClass({
       , dateTime = dates.merge(date, this.props.value, this.props.currentDate)
       , dateStr  = formatDate(date, format, this.props.culture);
 
-    // this.close()
+    if (!this.props.time)
+      this.close()
     notify(this.props.onSelect, [dateTime, dateStr])
     this.handleChange(dateTime, dateStr, true)
     this.focus()
