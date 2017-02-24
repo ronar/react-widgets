@@ -93,7 +93,8 @@ class CalendarViewCell extends React.Component {
             'rw-grid-cell',
             this.isOffView() && 'rw-off-range',
             this.isFocused() && 'rw-state-focus',
-            this.isSelected() && 'rw-state-selected'
+            this.isSelected() && 'rw-state-selected',
+            this.isEmpty() && 'rw-empty-cell'
           )}
       >
         <span
