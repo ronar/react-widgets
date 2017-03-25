@@ -77,9 +77,9 @@ class CalendarViewCell extends React.Component {
   render()  {
     let { children, id, label, disabled } = this.props;
 
-    if (this.isEmpty()) {
-      return <td className='rw-empty-cell' role='presentation'>&nbsp;</td>
-    }
+    // if (this.isEmpty()) {
+    //   return <td className='rw-empty-cell' role='presentation'>&nbsp;</td>
+    // }
 
     return (
       <td
