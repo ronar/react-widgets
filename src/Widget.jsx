@@ -36,7 +36,7 @@ class Widget extends React.Component {
           open && openClass,
           focused && 'rw-state-focus',
           disabled && 'rw-state-disabled',
-          readOnly && 'rw-state-readonly',
+          // readOnly && 'rw-state-readonly',
         )}
       />
     )

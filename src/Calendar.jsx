@@ -208,7 +208,7 @@ let Calendar = React.createClass({
     let elementProps = _.omitOwnProps(this)
       , viewProps  = _.pickProps(this.props, View)
 
-    let isDisabled = disabled || readOnly
+    let isDisabled = disabled// || readOnly
 
     messages = msgs(this.props.messages)
 
