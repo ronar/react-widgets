@@ -15,6 +15,7 @@ export default React.createClass({
   propTypes: {
     value: React.PropTypes.instanceOf(Date),
     step: React.PropTypes.number,
+    timeSlots: React.propTypes.array,
     min: React.PropTypes.instanceOf(Date),
     max: React.PropTypes.instanceOf(Date),
     currentDate: React.PropTypes.instanceOf(Date),
@@ -118,15 +119,39 @@ export default React.createClass({
 
   _dates(props){
     var times  = [], i = 0
-      , values = this._dateValues(props)
-      , start  = values.min
-      , startDay = dates.date(start);
+      , values // = this._dateValues(props)
+      , start //  = values.min
+      , startDay; // = dates.date(start);
 
-    while (dates.date(start) === startDay && dates.lte(start, values.max)) {
-      i++
-      times.push({ date: start, label: dateLocalizer.format(start, format(props), props.culture) })
-      start = dates.add(start, props.step || 30, 'minutes')
+    if (props.timeSlots.length !== 0) {
+      props.timeSlots.forEach(v => {
+        values = this._dateValues({
+          ...props,
+          min: v.startTime,
+          max: v.endTime
+        });
+
+        start = values.min;
+        startDay = dates.date(start);
+
+        while (dates.date(start) === startDay && dates.lte(start, values.max)) {
+          i++
+          times.push({ date: start, label: dateLocalizer.format(start, format(props), props.culture) })
+          start = dates.add(start, props.step || 30, 'minutes')
+        }
+      });
+    } else {
+      values = this._dateValues(props);
+      start = values.min;
+      startDay = dates.date(start);
+
+      while (dates.date(start) === startDay && dates.lte(start, values.max)) {
+        i++
+        times.push({ date: start, label: dateLocalizer.format(start, format(props), props.culture) })
+        start = dates.add(start, props.step || 30, 'minutes')
+      }
     }
+
     return times
   },
 
