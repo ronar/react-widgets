@@ -61,9 +61,10 @@ export default React.createClass({
       , minChanged  = !dates.eq(nextProps.min, this.props.min, 'minutes')
       , maxChanged  = !dates.eq(nextProps.max, this.props.max, 'minutes')
       , localeChanged = this.props.format !== nextProps.format
-                     || this.props.culture !== nextProps.culture;
+                     || this.props.culture !== nextProps.culture
+      , timeSlotsChanged = this.props.timeSlots && nextProps.timeSlots.length !== this.props.timeSlots.length;
 
-    if (valChanged || minChanged || maxChanged || localeChanged){
+    if (valChanged || minChanged || maxChanged || localeChanged || timeSlotsChanged) {
       this.setState({
         focusedItem: focusedItem || data[0],
         dates: data
@@ -123,7 +124,7 @@ export default React.createClass({
       , start //  = values.min
       , startDay; // = dates.date(start);
 
-    if (props.timeSlots.length !== 0) {
+    if (props.timeSlots && props.timeSlots.length !== 0) {
       props.timeSlots.forEach(v => {
         values = this._dateValues({
           ...props,
