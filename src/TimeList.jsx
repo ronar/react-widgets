@@ -15,7 +15,7 @@ export default React.createClass({
   propTypes: {
     value: React.PropTypes.instanceOf(Date),
     step: React.PropTypes.number,
-    timeSlots: React.propTypes.array,
+    timeSlots: React.PropTypes.array,
     min: React.PropTypes.instanceOf(Date),
     max: React.PropTypes.instanceOf(Date),
     currentDate: React.PropTypes.instanceOf(Date),
