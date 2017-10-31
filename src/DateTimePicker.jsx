@@ -128,6 +128,8 @@ var DateTimePicker = React.createClass({
       time: true,
       open: false,
 
+      preserveDate: true,
+
       //calendar override
       footer: true,
 
@@ -216,7 +218,8 @@ var DateTimePicker = React.createClass({
       , calendar
       , time
       , timeFormat
-      , timeComponent } = this.props;
+      , timeComponent
+      , preserveDate } = this.props;
 
     let calendarProps = _.pickProps(this.props, Calendar);
     let timeListProps = _.pickProps(this.props, TimeList);
@@ -255,7 +258,7 @@ var DateTimePicker = React.createClass({
           value={dateOrNull(value)}
           onMove={this._scrollTo}
           onSelect={this.handleTimeSelect}
-          preserveDate={!!calendar}
+          preserveDate={preserveDate && !!calendar}
           itemComponent={timeComponent}
           aria-labelledby={inputID}
           aria-live={open && 'polite'}

@@ -62,7 +62,7 @@ export default React.createClass({
       , maxChanged  = !dates.eq(nextProps.max, this.props.max, 'minutes')
       , localeChanged = this.props.format !== nextProps.format
                      || this.props.culture !== nextProps.culture
-      , timeSlotsChanged = this.props.timeSlots && nextProps.timeSlots.length !== this.props.timeSlots.length;
+      , timeSlotsChanged = JSON.stringify(nextProps.timeSlots) !== JSON.stringify(props.timeSlots.length);
 
     if (valChanged || minChanged || maxChanged || localeChanged || timeSlotsChanged) {
       this.setState({
