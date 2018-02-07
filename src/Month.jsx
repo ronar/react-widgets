@@ -18,6 +18,8 @@ let propTypes = {
   focused: React.PropTypes.instanceOf(Date),
   min: React.PropTypes.instanceOf(Date),
   max: React.PropTypes.instanceOf(Date),
+  // Extend min/max
+  timeSlots: React.PropTypes.array,
   onChange: React.PropTypes.func.isRequired,
 
   dayComponent: CustomPropTypes.elementType,
@@ -73,7 +75,7 @@ let MonthView = React.createClass({
   renderRow(row, rowIdx) {
     let {
         focused, today, disabled, onChange
-      , value, culture, min, max
+      , value, culture, timeSlots//min, max
       , dayComponent: Day } = this.props
       , id = instanceId(this)
       , labelFormat = dateLocalizer.getFormat('footer');
@@ -83,6 +85,10 @@ let MonthView = React.createClass({
         {row.map((date, colIdx) => {
           let formattedDate = dateLocalizer.format(date, dateFormat(this.props), culture)
             , label = dateLocalizer.format(date, labelFormat, culture);
+
+          var timeSlot = timeSlots.find(slot => slot.day.toLowerCase() === [date.format('dddd').toLowerCase()]);
+          var min = timeSlot.timeSlots.length && timeSlot.timeSlots[0].startTime;
+          var max = timeSlot.timeSlots.length && timeSlot.timeSlots[timeSlot.timeSlots.length - 1].endTime;
 
           return (
             <CalendarView.Cell

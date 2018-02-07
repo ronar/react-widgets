@@ -68,6 +68,9 @@ let propTypes = {
   min:           React.PropTypes.instanceOf(Date),
   max:           React.PropTypes.instanceOf(Date),
 
+  // Extend min/max
+  timeSlots:     React.PropTypes.array,
+
   currentDate:         React.PropTypes.instanceOf(Date),
   onCurrentDateChange: React.PropTypes.func,
 
